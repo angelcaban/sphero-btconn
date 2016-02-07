@@ -44,6 +44,7 @@ Firstly, find the bluetooth address for the device that you want to use:
     }
 
 Then, use the address to initialize the connection:
+
     bt::BtConnection<message_type> connection;
     try {
         connection.setEndpoint(bluetoothAddress);
@@ -53,6 +54,7 @@ Then, use the address to initialize the connection:
     }
 
 Now, requests can be performed and responses read:
+
     std::shared_ptr<message_type> request = message_type::assemble();
     connection.send(request);
 
@@ -69,7 +71,8 @@ Sphero Bluetooth Usage
 
 First, find the correct bluetooth address as described previously.
 
-Secondly, instantiate a new SpheroHandler object with this address:
+Secondly, instantiate a new SpheroHandler object with this address
+
     try {
         SpheroHandler robot(bluetoothAddress);
     } catch (NotConnectedException & noConn) {
@@ -78,8 +81,9 @@ Secondly, instantiate a new SpheroHandler object with this address:
     }
 
 Now, commands can be sent to the device:
-    robot.sendCommand(PingCommand());
 
+    robot.sendCommand(PingCommand());
+    // . . .
     auto responsePtr = robot.readResponse();
     if (responsePtr) {
         // Message Response of 0x00 signifies success
@@ -88,7 +92,7 @@ Now, commands can be sent to the device:
                 responsePtr->messageReponseToString() << std::endl;
             exit(-1);
         }
-
+        // . . .
         robot.sendCommand(GetBTNameCommand());
         responsePtr = robot.readResponse();
         if (responsePtr) {
@@ -97,7 +101,7 @@ Now, commands can be sent to the device:
                     responsePtr->messageResponseToString() << std::endl;
                 exit(-1);
             }
-
+            // . . .
             std::string asciiName(
                 (char *) (responsePtr->msgData()),
                 (char *) (responsePtr->msgData() + 16));
@@ -106,5 +110,5 @@ Now, commands can be sent to the device:
     }
 
 -- 
-Angel Caban <acaban at mail dot angelcaban dot net>
+Angel Caban <acaban at mail dot angelcaban dot net> 
 
